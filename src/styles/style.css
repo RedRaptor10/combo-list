@@ -1,4 +1,5 @@
 :root {
+    --borderColor: rgb(128, 128, 128);
     --color: rgb(192, 192, 192);
 }
 
@@ -16,4 +17,21 @@ a {
 
 a:hover {
     color: #fff;
+}
+
+header {
+    align-items: center;
+    background: rgb(32, 32, 32);
+    box-sizing: border-box;
+    color: #fff;
+    display: flex;
+    height: 10vh;
+    padding: 8px 32px;
+}
+
+main {
+    height: 90vh;
+    margin: 0 auto;
+    padding: 32px 0;
+    width: 75%;
 }
