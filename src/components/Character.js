@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Combo from './Combo';
 
 const Character = () => {
     const { character } = useParams();
@@ -34,7 +35,7 @@ const Character = () => {
             {combos ?
                 combos.map(combo => {
                     return (
-                        <div key={combo._id}>{combo.input}</div>
+                        <Combo key={combo._id} combo={combo} />
                     )
                 })
             : null}
