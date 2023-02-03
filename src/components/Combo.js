@@ -1,39 +1,22 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-const Combo = () => {
-    const { comboId } = useParams();
-    const [combo, setCombo] = useState();
-
-    // Get Combo
-    useEffect(() => {
-        const fetchCombo = async () => {
-            try {
-                const options = {
-                    method: 'GET'
-                };
-
-                const data = await fetch(process.env.REACT_APP_SERVER + 'api/combos/' + comboId, options);
-                if (data.status < 200 || data.status > 299) {
-                    throw new Error('Error ' + data.status + ': ' + data.statusText);
-                }
-                return data.json();
-            } catch (error) {
-                throw new Error(error);
-            }
-        };
-
-        fetchCombo()
-        .then(res => {
-            setCombo(res);
-        });
-    }, [comboId]);
-
+const Combo = ({combo}) => {
     return (
-        <div>
-            {combo ?
-                <div>{combo.input}</div>
-            : null}
+        <div className="combo">
+            <div className="combo-col-left">
+                <div className="combo-input-tags">
+                    <div className="combo-input">{combo.input}</div>
+                    <div className="combo-tags">
+                        {combo.tags.length > 0 ?
+                            combo.tags.map((tag, i) => {
+                                return (
+                                    <div key={i} className="combo-tag">{tag}</div>
+                                );
+                            })
+                        : null}
+                    </div>
+                </div>
+                <div className="combo-notes">{combo.notes}</div>
+            </div>
+            <div className="combo-col-right combo-damage">{combo.damage.$numberDecimal + ' dmg'}</div>
         </div>
     );
 };
