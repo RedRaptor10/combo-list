@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const ComboForm = () => {
     const { character } = useParams();
+    const tags = ['1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
         damage: '',
         input: '',
         notes: '',
+        tags: [],
         type: 'Midscreen'
     });
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ const ComboForm = () => {
                 date: new Date(),
                 input: form.input,
                 notes: form.notes,
-                tags: [],
+                tags: form.tags,
                 type: form.type
             })
         }
@@ -52,6 +54,23 @@ const ComboForm = () => {
         });
     }
 
+    const toggleTag = tag => {
+        const newTags = form.tags;
+
+        // If form tags don't include tag, add tag, otherwise remove tag
+        if (!form.tags.includes(tag)) {
+            newTags.push(tag);
+        } else {
+            const index = newTags.indexOf(tag);
+            newTags.splice(index, 1);
+        }
+
+        setForm({
+            ...form,
+            tags: newTags
+        });
+    }
+
     return (
         <main className="combo-form-page">
             <form className="combo-form" action="">
@@ -67,6 +86,13 @@ const ComboForm = () => {
                     <option value="Midscreen">Midscreen</option>
                     <option value="Corner">Corner</option>
                 </select>
+                <div className="form-tags">
+                    {tags.map(tag => {
+                        return (
+                            <div key={tag} className={form.tags.includes(tag) ? 'active-tag' : null} onClick={() => toggleTag(tag)}>{tag}</div>
+                        )
+                    })}
+                </div>
                 <button className="submit-btn" type="submit" onClick={addCombo}>Add</button>
             </form>
         </main>
