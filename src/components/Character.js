@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Combo from './Combo';
 
 const Character = () => {
@@ -32,6 +32,7 @@ const Character = () => {
 
     return (
         <main className="character">
+            <Link to={'/' + character + '/create'}>Add Combo</Link>
             {combos ?
                 combos.map(combo => {
                     return (

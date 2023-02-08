@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Home from './Home';
 import Character from './Character';
+import ComboForm from './ComboForm';
 
 const App = () => {
     return (
@@ -10,6 +11,7 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/:character" element={<Character />} />
+                <Route exact path="/:character/create" element={<ComboForm />} />
             </Routes>
         </HashRouter>
     );
