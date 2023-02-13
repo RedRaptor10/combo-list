@@ -53,12 +53,13 @@ const Character = () => {
 
     return (
         <main className="character">
-            <Link to={'/' + character + '/create'}>Add Combo</Link>
+            <Link to={'/' + character + '/combos/create'}>Add Combo</Link>
             {combos ?
                 combos.map((combo, i) => {
                     return (
                         <div key={combo._id} className="combo-wrapper">
                             <Combo combo={combo} />
+                            <Link to={'/' + character + '/combos/' + combo._id + '/update'}>Update</Link>
                             <button onClick={() => { deleteCombo(combo._id, i) }}>Delete</button>
                         </div>
                     )
