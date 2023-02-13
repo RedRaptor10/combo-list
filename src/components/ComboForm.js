@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const ComboForm = () => {
     const { character } = useParams();
-    const tags = ['1 Bar', '2 Bars', '3 Bars'];
+    const tagsList = ['1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
         damage: '',
         input: '',
@@ -44,7 +44,6 @@ const ComboForm = () => {
             if (res.status < 200 || res.status > 299) {
                 throw new Error('Error ' + res.status + ': ' + res.statusText);
             }
-            return res.json();
         })
         .then(() => {
             navigate('/' + character);
@@ -55,19 +54,19 @@ const ComboForm = () => {
     }
 
     const toggleTag = tag => {
-        const newTags = form.tags;
+        const temp = form.tags.slice();
 
         // If form tags don't include tag, add tag, otherwise remove tag
         if (!form.tags.includes(tag)) {
-            newTags.push(tag);
+            temp.push(tag);
         } else {
-            const index = newTags.indexOf(tag);
-            newTags.splice(index, 1);
+            const index = temp.indexOf(tag);
+            temp.splice(index, 1);
         }
 
         setForm({
             ...form,
-            tags: newTags
+            tags: temp
         });
     }
 
@@ -87,7 +86,7 @@ const ComboForm = () => {
                     <option value="Corner">Corner</option>
                 </select>
                 <div className="form-tags">
-                    {tags.map(tag => {
+                    {tagsList.map(tag => {
                         return (
                             <div key={tag} className={form.tags.includes(tag) ? 'active-tag' : null} onClick={() => toggleTag(tag)}>{tag}</div>
                         )
