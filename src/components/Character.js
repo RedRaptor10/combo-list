@@ -30,13 +30,37 @@ const Character = () => {
         });
     }, [character]);
 
+    // Delete Combo
+    const deleteCombo = async (comboId, i) => {
+        try {
+            const options = {
+                method: 'DELETE'
+            };
+
+            const data = await fetch(process.env.REACT_APP_SERVER + 'api/combos/' + comboId + '/delete', options);
+            if (data.status < 200 || data.status > 299) {
+                throw new Error('Error ' + data.status + ': ' + data.statusText);
+            }
+
+            // After deleting combo from database, also remove combo from combos array state
+            let temp = combos.slice();
+            temp.splice(i, 1);
+            setCombos(temp);
+        } catch (error) {
+            throw new Error(error);
+        }
+    };
+
     return (
         <main className="character">
             <Link to={'/' + character + '/create'}>Add Combo</Link>
             {combos ?
-                combos.map(combo => {
+                combos.map((combo, i) => {
                     return (
-                        <Combo key={combo._id} combo={combo} />
+                        <div key={combo._id} className="combo-wrapper">
+                            <Combo combo={combo} />
+                            <button onClick={() => { deleteCombo(combo._id, i) }}>Delete</button>
+                        </div>
                     )
                 })
             : null}
