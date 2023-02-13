@@ -11,7 +11,8 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/:character" element={<Character />} />
-                <Route exact path="/:character/create" element={<ComboForm />} />
+                <Route exact path="/:character/combos/create" element={<ComboForm />} />
+                <Route path="/:character/combos/:comboId/update" element={<ComboForm />} />
             </Routes>
         </HashRouter>
     );
