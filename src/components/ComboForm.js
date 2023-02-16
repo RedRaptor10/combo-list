@@ -5,12 +5,13 @@ const ComboForm = () => {
     const { character, comboId } = useParams();
     const tagsList = ['1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
-        damage: '',
+        damage: 0.00,
         input: '',
         notes: '',
         tags: [],
         type: 'Midscreen'
     });
+    const [formErrors, setFormErrors] = useState();
     const navigate = useNavigate();
 
     // If Update, get combo data and set form
@@ -78,9 +79,14 @@ const ComboForm = () => {
             if (res.status < 200 || res.status > 299) {
                 throw new Error('Error ' + res.status + ': ' + res.statusText);
             }
+            return res.json();
         })
-        .then(() => {
-            navigate('/' + character);
+        .then(res => {
+            if (res.errors) {
+                setFormErrors(res.errors);
+            } else {
+                navigate('/' + character);
+            }
         })
         .catch(error => {
             throw new Error(error);
@@ -109,10 +115,30 @@ const ComboForm = () => {
             <form className="combo-form" action="">
                 <label htmlFor="input">Input</label>
                 <input name="input" value={form.input} onChange={handleChange}></input>
+                {formErrors ?
+                    formErrors.map((error, i) => {
+                        if (error.param === 'input') {
+                            return (
+                                <div key={i} className="form-error">{error.msg}</div>
+                            );
+                        }
+                        return null;
+                    })
+                : null}
                 <label htmlFor="damage">Damage</label>
-                <input name="damage" value={form.damage} onChange={handleChange}></input>
+                <input name="damage" type="number" min="0" max="999" value={form.damage} onChange={handleChange}></input>
                 <label htmlFor="notes">Notes</label>
                 <textarea name="notes" value={form.notes} onChange={handleChange}></textarea>
+                {formErrors ?
+                    formErrors.map((error, i) => {
+                        if (error.param === 'notes') {
+                            return (
+                                <div key={i} className="form-error">{error.msg}</div>
+                            );
+                        }
+                        return null;
+                    })
+                : null}
                 <label htmlFor="tags">Tags</label>
                 <label htmlFor="type">Type</label>
                 <select name="type" value={form.type} onChange={handleChange}>
