@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const ComboForm = () => {
     const { character, comboId } = useParams();
+    const inputs = ['b', 'u', 'd', 'f', 'B', 'U', 'D', 'F', '1', '2', '3', '4', ',', '+', ' ', 'Backspace'];
     const tagsList = ['1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
         damage: 0.00,
@@ -46,9 +47,7 @@ const ComboForm = () => {
     }, [comboId]);
 
     const checkInput = event => {
-        const allowed = ['b', 'u', 'd', 'f', 'B', 'U', 'D', 'F', '1', '2', '3', '4', ',', '+', ' ', 'Backspace', 'Tab'];
-
-        if (!allowed.includes(event.key)) {
+        if (!inputs.includes(event.key) && event.key !== 'Tab') {
             event.preventDefault();
         }
     };
@@ -66,6 +65,26 @@ const ComboForm = () => {
         setForm({
             ...form,
             [event.target.name]: event.target.value
+        });
+    };
+
+    const handleInputClick = event => {
+        // If button is Backspace, remove last character from form input, else add input
+        const newInput = event.target.value === 'Backspace' ? form.input.slice(0, -1) : form.input + event.target.value;
+
+        setForm({
+            ...form,
+            input: newInput
+        });
+    };
+
+    const clearForm = () => {
+        setForm({
+            damage: 0.00,
+            input: '',
+            notes: '',
+            tags: [],
+            type: 'Midscreen'
         });
     };
 
@@ -136,7 +155,7 @@ const ComboForm = () => {
                     formErrors.map((error, i) => {
                         if (error.param === 'input') {
                             return (
-                                <div key={i} className="form-error">{error.msg}</div>
+                                <div key={i} className="combo-form-error">{error.msg}</div>
                             );
                         }
                         return null;
@@ -150,7 +169,7 @@ const ComboForm = () => {
                     formErrors.map((error, i) => {
                         if (error.param === 'notes') {
                             return (
-                                <div key={i} className="form-error">{error.msg}</div>
+                                <div key={i} className="combo-form-error">{error.msg}</div>
                             );
                         }
                         return null;
@@ -162,12 +181,20 @@ const ComboForm = () => {
                     <option value="Midscreen">Midscreen</option>
                     <option value="Corner">Corner</option>
                 </select>
-                <div className="form-tags">
+                <div className="combo-form-tags">
                     {tagsList.map(tag => {
                         return (
                             <div key={tag} className={form.tags.includes(tag) ? 'active-tag' : null} onClick={() => toggleTag(tag)}>{tag}</div>
                         )
                     })}
+                </div>
+                <div className="combo-form-btns">
+                    {inputs.map((input, i) => {
+                        return (
+                            <button key={i} className="combo-form-btn" value={input} onClick={handleInputClick}>{input}</button>
+                        );
+                    })}
+                    <button className="combo-form-btn" onClick={clearForm}>Clear</button>
                 </div>
                 <button className="submit-btn" type="submit" onClick={submitCombo}>{comboId ? 'Update' : 'Add'}</button>
             </form>
