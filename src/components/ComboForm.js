@@ -45,6 +45,14 @@ const ComboForm = () => {
         }
     }, [comboId]);
 
+    const checkInput = event => {
+        const allowed = ['b', 'u', 'd', 'f', 'B', 'U', 'D', 'F', '1', '2', '3', '4', ',', '+', ' ', 'Backspace', 'Tab'];
+
+        if (!allowed.includes(event.key)) {
+            event.preventDefault();
+        }
+    };
+
     const checkDamage = event => {
         const allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', '.', 'Decimal'];
 
@@ -52,7 +60,7 @@ const ComboForm = () => {
         if ((!allowed.includes(event.key)) || ((event.key === '.' || event.key === 'Decimal') && event.target.value.includes('.'))) {
             event.preventDefault();
         }
-    }
+    };
 
     const handleChange = event => {
         setForm({
@@ -123,7 +131,7 @@ const ComboForm = () => {
         <main className="combo-form-page">
             <form className="combo-form" action="">
                 <label htmlFor="input">Input</label>
-                <input name="input" value={form.input} onChange={handleChange}></input>
+                <input name="input" value={form.input} onKeyDown={checkInput} onChange={handleChange}></input>
                 {formErrors ?
                     formErrors.map((error, i) => {
                         if (error.param === 'input') {
