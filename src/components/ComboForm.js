@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Combo from './Combo';
 
 const ComboForm = () => {
     const { character, comboId } = useParams();
@@ -69,6 +70,8 @@ const ComboForm = () => {
     };
 
     const handleInputClick = event => {
+        event.preventDefault();
+
         // If button is Backspace, remove last character from form input, else add input
         const newInput = event.target.value === 'Backspace' ? form.input.slice(0, -1) : form.input + event.target.value;
 
@@ -78,7 +81,9 @@ const ComboForm = () => {
         });
     };
 
-    const clearForm = () => {
+    const clearForm = event => {
+        event.preventDefault();
+
         setForm({
             damage: 0.00,
             input: '',
@@ -148,6 +153,7 @@ const ComboForm = () => {
 
     return (
         <main className="combo-form-page">
+            <Combo combo={{...form, damage: { $numberDecimal: form.damage }}} />
             <form className="combo-form" action="">
                 <label htmlFor="input">Input</label>
                 <input name="input" value={form.input} onKeyDown={checkInput} onChange={handleChange}></input>
