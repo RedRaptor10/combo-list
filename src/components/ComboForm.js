@@ -45,6 +45,15 @@ const ComboForm = () => {
         }
     }, [comboId]);
 
+    const checkDamage = event => {
+        const allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', '.', 'Decimal'];
+
+        // If allowed keys are not pressed OR there are multiple decimal points, prevent onChange event
+        if ((!allowed.includes(event.key)) || ((event.key === '.' || event.key === 'Decimal') && event.target.value.includes('.'))) {
+            event.preventDefault();
+        }
+    }
+
     const handleChange = event => {
         setForm({
             ...form,
@@ -126,7 +135,7 @@ const ComboForm = () => {
                     })
                 : null}
                 <label htmlFor="damage">Damage</label>
-                <input name="damage" type="number" min="0" max="999" value={form.damage} onChange={handleChange}></input>
+                <input name="damage" value={form.damage} onKeyDown={checkDamage} onChange={handleChange}></input>
                 <label htmlFor="notes">Notes</label>
                 <textarea name="notes" value={form.notes} onChange={handleChange}></textarea>
                 {formErrors ?
