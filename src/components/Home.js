@@ -27,20 +27,35 @@ const Home = () => {
             setCharacters(res);
         });
     }, []);
+
     return (
         <main className="home">
-            <h2>Characters</h2>
-            <section className="characters">
+            <div className="description">
+                Combo List is a web app used for keeping track of combos in fighting games. 
+                Simply click on a character to view their combos. On each character page, combos can be added, edited, or deleted.
+                <br /><br />
+                Tools: JavaScript, HTML, CSS, React, NodeJS, MongoDB
+                <br />
+                <a href="https://github.com/RedRaptor10/combo-list">View Source Code</a>
+            </div>
+            <table className="characters">
+                <tr>
+                    <th>Characters</th>
+                </tr>
                 {characters ?
                     characters.map(character => {
                         return (
-                            <Link key={character._id} to={'/' + character.slug} className="character-wrapper">
-                                <div className="character">{character.name}</div>
-                            </Link>
+                            <tr key={character._id}>
+                                <td>
+                                    <Link to={'/' + character.slug} className="character-wrapper">
+                                        {character.name}
+                                    </Link>
+                                </td>
+                            </tr>
                         )
                     })
                 : null}
-            </section>
+            </table>
         </main>
     );
 };

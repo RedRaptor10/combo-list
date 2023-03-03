@@ -1,5 +1,8 @@
 :root {
-    --borderColor: rgb(128, 128, 128);
+    --border-color: rgb(64, 64, 64);
+    --box-background: rgb(16, 16, 16);
+    --box-color: rgb(224, 224, 224);
+    --box-header-background: rgb(96, 0, 0);
     --color: rgb(192, 192, 192);
 }
 
@@ -13,6 +16,7 @@ body {
 a {
     color: unset;
     text-decoration: none;
+    transition: 0.1s;
 }
 
 a:hover {
@@ -21,7 +25,7 @@ a:hover {
 
 header {
     align-items: center;
-    background: rgb(32, 32, 32);
+    background: rgb(16, 16, 16);
     box-sizing: border-box;
     color: #fff;
     display: flex;
@@ -36,10 +40,57 @@ main {
     width: 75%;
 }
 
+/* Home */
+.description {
+    background: var(--box-background);
+    font-size: 20px;
+    line-height: 35px;
+    margin-bottom: 16px;
+    padding: 24px;
+}
+
+.description a {
+    color: rgb(192, 0, 0);
+    transition: 0.1s;
+}
+
+.description a:hover {
+    color: rgb(255, 64, 64);
+}
+
+.characters {
+    border-spacing: unset;
+    width: 100%;
+}
+
+.characters th {
+    background: var(--box-header-background);
+    color: var(--box-color);
+    font-size: 32px;
+    font-style: italic;
+    padding: 16px;
+    text-align: unset;
+}
+
+.characters a {
+    display: inline-block;
+    padding: 16px;
+    width: 100%;
+}
+
+.characters td {
+    background: var(--box-background);
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    font-size: 24px;
+    font-weight: bold;
+}
+
 /* Combo Info */
 .combo {
     background: rgb(32, 32, 32);
-    border: 2px solid var(--borderColor);
+    border: 2px solid var(--border-color);
     border-radius: 4px;
     display: flex;
     padding: 8px;
