@@ -32,29 +32,33 @@ const Home = () => {
         <main className="home">
             <div className="description">
                 Combo List is a web app used for keeping track of combos in fighting games. 
-                Simply click on a character to view their combos. On each character page, combos can be added, edited, or deleted.
+                Simply click on a character to view their combos. Combos can also be added, edited, or deleted on their respective character page.
                 <br /><br />
                 Tools: JavaScript, HTML, CSS, React, NodeJS, MongoDB
                 <br />
-                <a href="https://github.com/RedRaptor10/combo-list">View Source Code</a>
+                <a href="https://github.com/RedRaptor10/combo-list" target="_blank" rel="noreferrer">View Source Code</a>
             </div>
             <table className="characters">
-                <tr>
-                    <th>Characters</th>
-                </tr>
-                {characters ?
-                    characters.map(character => {
-                        return (
-                            <tr key={character._id}>
-                                <td>
-                                    <Link to={'/' + character.slug} className="character-wrapper">
-                                        {character.name}
-                                    </Link>
-                                </td>
-                            </tr>
-                        )
-                    })
-                : null}
+                <thead>
+                    <tr>
+                        <th>Characters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {characters ?
+                        characters.map(character => {
+                            return (
+                                <tr key={character._id}>
+                                    <td>
+                                        <Link to={'/' + character.slug} className="character-wrapper">
+                                            {character.name}
+                                        </Link>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    : null}
+                </tbody>
             </table>
         </main>
     );
