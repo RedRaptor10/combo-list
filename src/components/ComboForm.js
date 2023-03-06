@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Combo from './Combo';
 
 const ComboForm = () => {
-    const { character, comboId } = useParams();
+    const { characterSlug, comboId } = useParams();
     const inputs = ['b', 'u', 'd', 'f', 'B', 'U', 'D', 'F', '1', '2', '3', '4', ',', '+', ' ', 'Backspace'];
     const tagsList = ['1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
@@ -105,7 +105,7 @@ const ComboForm = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                character: form.character ? form.character : character,
+                character: form.character ? form.character : characterSlug,
                 damage: form.damage,
                 date: form.date ? form.date : new Date(),
                 input: form.input,
@@ -126,7 +126,7 @@ const ComboForm = () => {
             if (res.errors) {
                 setFormErrors(res.errors);
             } else {
-                navigate('/' + character);
+                navigate('/' + characterSlug);
             }
         })
         .catch(error => {

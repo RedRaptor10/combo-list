@@ -3,8 +3,33 @@ import { useParams, Link } from 'react-router-dom';
 import Combo from './Combo';
 
 const Character = () => {
-    const { character } = useParams();
+    const { characterSlug } = useParams();
+    const [character, setCharacter] = useState();
     const [combos, setCombos] = useState();
+
+    // Get Character
+    useEffect(() => {
+        const fetchCharacter = async () => {
+            try {
+                const options = {
+                    method: 'GET'
+                };
+
+                const data = await fetch(process.env.REACT_APP_SERVER + 'api/characters/' + characterSlug, options);
+                if (data.status < 200 || data.status > 299) {
+                    throw new Error('Error ' + data.status + ': ' + data.statusText);
+                }
+                return data.json();
+            } catch (error) {
+                throw new Error(error);
+            }
+        };
+
+        fetchCharacter()
+        .then(res => {
+            setCharacter(res);
+        });
+    }, [characterSlug]);
 
     // Get Combos
     useEffect(() => {
@@ -14,7 +39,7 @@ const Character = () => {
                     method: 'GET'
                 };
 
-                const data = await fetch(process.env.REACT_APP_SERVER + 'api/characters/' + character + '/combos', options);
+                const data = await fetch(process.env.REACT_APP_SERVER + 'api/characters/' + characterSlug + '/combos', options);
                 if (data.status < 200 || data.status > 299) {
                     throw new Error('Error ' + data.status + ': ' + data.statusText);
                 }
@@ -28,7 +53,7 @@ const Character = () => {
         .then(res => {
             setCombos(res);
         });
-    }, [character]);
+    }, [characterSlug]);
 
     // Delete Combo
     const deleteCombo = async (comboId, i) => {
@@ -53,18 +78,29 @@ const Character = () => {
 
     return (
         <main className="character">
-            <Link to={'/' + character + '/combos/create'}>Add Combo</Link>
-            {combos ?
-                combos.map((combo, i) => {
-                    return (
-                        <div key={combo._id} className="combo-wrapper">
-                            <Combo combo={combo} />
-                            <Link to={'/' + character + '/combos/' + combo._id + '/update'}>Update</Link>
-                            <button onClick={() => { deleteCombo(combo._id, i) }}>Delete</button>
-                        </div>
-                    )
-                })
+            {character?
+                <h1>{character.name}</h1>
             : null}
+            <Link to={'/' + characterSlug + '/combos/create'} className="btn-container">
+                <button className="btn">Add Combo</button>
+            </Link>
+            <div className="combos">
+                {combos ?
+                    combos.map((combo, i) => {
+                        return (
+                            <div key={combo._id} className="combo-wrapper">
+                                <Combo combo={combo} />
+                                <div className="combo-btns">
+                                    <Link to={'/' + characterSlug + '/combos/' + combo._id + '/update'} className="btn-container">
+                                        <button className="btn">Update</button>
+                                    </Link>
+                                    <button className="btn" onClick={() => { deleteCombo(combo._id, i) }}>Delete</button>
+                                </div>
+                            </div>
+                        )
+                    })
+                : null}
+            </div>
         </main>
     );
 };
