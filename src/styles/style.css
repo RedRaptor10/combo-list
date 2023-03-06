@@ -1,9 +1,9 @@
 :root {
     --border-color: rgb(64, 64, 64);
-    --box-background: rgb(16, 16, 16);
     --box-color: rgb(224, 224, 224);
-    --box-header-background: rgb(96, 0, 0);
     --color: rgb(192, 192, 192);
+    --primary-color: rgb(96, 0, 0);
+    --secondary-color: rgb(16, 16, 16);
 }
 
 body {
@@ -42,7 +42,7 @@ main {
 
 /* Home */
 .description {
-    background: var(--box-background);
+    background: var(--secondary-color);
     font-size: 20px;
     line-height: 35px;
     margin-bottom: 16px;
@@ -64,7 +64,7 @@ main {
 }
 
 .characters th {
-    background: var(--box-header-background);
+    background: var(--primary-color);
     color: var(--box-color);
     font-size: 32px;
     font-style: italic;
@@ -79,7 +79,7 @@ main {
 }
 
 .characters td {
-    background: var(--box-background);
+    background: var(--secondary-color);
     border-bottom: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
     border-right: 1px solid var(--border-color);
@@ -87,11 +87,55 @@ main {
     font-weight: bold;
 }
 
-/* Combo Info */
+/* Button */
+.btn {
+    align-items: center;
+    background: rgb(24, 24, 24);
+    border: 1px solid var(--border-color);
+    color: var(--color);
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    justify-content: center;
+    padding: 8px;
+    transition: 0.1s;
+}
+
+.btn:hover {
+    background: rgb(16, 16, 16);
+}
+
+.btn-container {
+    display: inline-block;
+}
+
+/* Character */
+.combos {
+    margin-top: 8px;
+}
+
+.combo-wrapper {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.combo-wrapper .combo {
+    margin-right: 8px;
+    width: 100%;
+}
+
+.combo-wrapper .combo-btns * {
+    width: 100%;
+}
+
+.combo-wrapper .combo-btns a {
+    margin-bottom: 8px;
+}
+
+/* Combo */
 .combo {
-    background: rgb(32, 32, 32);
-    border: 2px solid var(--border-color);
-    border-radius: 4px;
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
     display: flex;
     padding: 8px;
 }
@@ -110,6 +154,7 @@ main {
 
 .combo-input-tags {
     display: flex;
+    height: 50%;
 }
 
 .combo-input {
@@ -129,4 +174,5 @@ main {
 
 .combo-notes {
     font-size: 16px;
+    height: 50%;
 }
