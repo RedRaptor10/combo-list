@@ -48,13 +48,16 @@ const ComboForm = () => {
     }, [comboId]);
 
     const checkInput = event => {
-        if (!inputs.includes(event.key) && event.key !== 'Tab') {
+        const allowed = ['Delete', 'Tab', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight'];
+
+        // If allowed keys are not pressed, prevent onChange event
+        if (!inputs.includes(event.key) && !allowed.includes(event.key)) {
             event.preventDefault();
         }
     };
 
     const checkDamage = event => {
-        const allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', '.', 'Decimal'];
+        const allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete', 'Tab', '.', 'Decimal', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'ArrowRight'];
 
         // If allowed keys are not pressed OR there are multiple decimal points, prevent onChange event
         if ((!allowed.includes(event.key)) || ((event.key === '.' || event.key === 'Decimal') && event.target.value.includes('.'))) {
@@ -134,7 +137,9 @@ const ComboForm = () => {
         });
     };
 
-    const toggleTag = tag => {
+    const toggleTag = (event, tag) => {
+        event.preventDefault();
+
         const temp = form.tags.slice();
 
         // If form tags don't include tag then add it, otherwise remove tag
@@ -153,10 +158,14 @@ const ComboForm = () => {
 
     return (
         <main className="combo-form-page">
-            <Combo combo={{...form, damage: { $numberDecimal: form.damage }}} />
+            <h1>{comboId ? 'Edit Combo' : 'Add Combo'}</h1>
+            <div className="combo-form-page-preview">
+                <label>Preview</label>
+                <Combo combo={{...form, damage: { $numberDecimal: form.damage }}} />
+            </div>
             <form className="combo-form" action="">
                 <label htmlFor="input">Input</label>
-                <input name="input" value={form.input} onKeyDown={checkInput} onChange={handleChange}></input>
+                <input name="input" className="combo-form-input" value={form.input} onKeyDown={checkInput} onChange={handleChange}></input>
                 {formErrors ?
                     formErrors.map((error, i) => {
                         if (error.param === 'input') {
@@ -167,10 +176,17 @@ const ComboForm = () => {
                         return null;
                     })
                 : null}
+                <div className="combo-form-btns">
+                    {inputs.map((input, i) => {
+                        return (
+                            <button key={i} className="btn" value={input} onClick={handleInputClick}>{input === ' ' ? 'Space' : input}</button>
+                        );
+                    })}
+                </div>
                 <label htmlFor="damage">Damage</label>
-                <input name="damage" value={form.damage} onKeyDown={checkDamage} onChange={handleChange}></input>
+                <input name="damage" type="number" className="combo-form-damage" min="0" max="999" value={form.damage} onKeyDown={checkDamage} onChange={handleChange}></input>
                 <label htmlFor="notes">Notes</label>
-                <textarea name="notes" value={form.notes} onChange={handleChange}></textarea>
+                <textarea name="notes" className="combo-form-notes" value={form.notes} onChange={handleChange}></textarea>
                 {formErrors ?
                     formErrors.map((error, i) => {
                         if (error.param === 'notes') {
@@ -182,27 +198,23 @@ const ComboForm = () => {
                     })
                 : null}
                 <label htmlFor="tags">Tags</label>
-                <label htmlFor="type">Type</label>
-                <select name="type" value={form.type} onChange={handleChange}>
-                    <option value="Midscreen">Midscreen</option>
-                    <option value="Corner">Corner</option>
-                </select>
                 <div className="combo-form-tags">
                     {tagsList.map(tag => {
                         return (
-                            <div key={tag} className={form.tags.includes(tag) ? 'active-tag' : null} onClick={() => toggleTag(tag)}>{tag}</div>
+                            <button key={tag} className={form.tags.includes(tag) ? 'btn combo-form-tag btn combo-form-active-tag' : 'btn combo-form-tag'}
+                                onClick={event => toggleTag(event, tag)}>{tag}</button>
                         )
                     })}
                 </div>
-                <div className="combo-form-btns">
-                    {inputs.map((input, i) => {
-                        return (
-                            <button key={i} className="combo-form-btn" value={input} onClick={handleInputClick}>{input}</button>
-                        );
-                    })}
-                    <button className="combo-form-btn" onClick={clearForm}>Clear</button>
+                <label htmlFor="type">Type</label>
+                <select name="type" className="combo-form-type" value={form.type} onChange={handleChange}>
+                    <option value="Midscreen">Midscreen</option>
+                    <option value="Corner">Corner</option>
+                </select>
+                <div className="combo-form-footer combo-form-btns">
+                    <button className="btn" onClick={clearForm}>Clear Form</button>
+                    <button className="btn" type="submit" onClick={submitCombo}>{comboId ? 'Update Combo' : 'Add Combo'}</button>
                 </div>
-                <button className="submit-btn" type="submit" onClick={submitCombo}>{comboId ? 'Update' : 'Add'}</button>
             </form>
         </main>
     );

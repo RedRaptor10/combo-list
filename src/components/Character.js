@@ -92,7 +92,7 @@ const Character = () => {
                                 <Combo combo={combo} />
                                 <div className="combo-btns">
                                     <Link to={'/' + characterSlug + '/combos/' + combo._id + '/update'} className="btn-container">
-                                        <button className="btn">Update</button>
+                                        <button className="btn">Edit</button>
                                     </Link>
                                     <button className="btn" onClick={() => { deleteCombo(combo._id, i) }}>Delete</button>
                                 </div>
