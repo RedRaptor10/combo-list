@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Combo from './Combo';
 
 const ComboForm = () => {
@@ -212,6 +212,7 @@ const ComboForm = () => {
                     <option value="Corner">Corner</option>
                 </select>
                 <div className="combo-form-footer combo-form-btns">
+                    <button className="btn" onClick={event => { event.preventDefault() }}><Link to={'/' + characterSlug}>Cancel</Link></button>
                     <button className="btn" onClick={clearForm}>Clear Form</button>
                     <button className="btn" type="submit" onClick={submitCombo}>{comboId ? 'Update Combo' : 'Add Combo'}</button>
                 </div>
