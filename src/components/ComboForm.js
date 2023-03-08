@@ -212,7 +212,9 @@ const ComboForm = () => {
                     <option value="Corner">Corner</option>
                 </select>
                 <div className="combo-form-footer combo-form-btns">
-                    <button className="btn" onClick={event => { event.preventDefault() }}><Link to={'/' + characterSlug}>Cancel</Link></button>
+                    <Link to={'/' + characterSlug} className="btn-container">
+                        <button className="btn">Cancel</button>
+                    </Link>
                     <button className="btn" onClick={clearForm}>Clear Form</button>
                     <button className="btn" type="submit" onClick={submitCombo}>{comboId ? 'Update Combo' : 'Add Combo'}</button>
                 </div>
