@@ -111,6 +111,45 @@ main {
 }
 
 /* Character */
+.add-combo-btn-wrapper {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.add-combo-btn-wrapper a {
+    width: 100%;
+}
+
+.add-combo-btn {
+    font-size: 24px;
+    width: 100%;
+}
+
+.combo-type-btns {
+    display: flex;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.combo-type-btns .btn:first-child {
+    margin-right: 8px;
+}
+
+.combo-type-btns .btn {
+    font-size: 24px;
+    width: 50%;
+}
+
+.active-type {
+    background: var(--primary-color);
+    color: #fff;
+    cursor: default;
+}
+
+.active-type:hover {
+    background: var(--primary-color);
+}
+
 .combos {
     margin-top: 8px;
 }

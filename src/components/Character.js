@@ -5,6 +5,7 @@ import Combo from './Combo';
 const Character = () => {
     const { characterSlug } = useParams();
     const [character, setCharacter] = useState();
+    const [type, setType] = useState('midscreen');
     const [combos, setCombos] = useState();
 
     // Get Character
@@ -39,7 +40,7 @@ const Character = () => {
                     method: 'GET'
                 };
 
-                const data = await fetch(process.env.REACT_APP_SERVER + 'api/characters/' + characterSlug + '/combos', options);
+                const data = await fetch(process.env.REACT_APP_SERVER + 'api/characters/' + characterSlug + '/combos?type=' + type, options);
                 if (data.status < 200 || data.status > 299) {
                     throw new Error('Error ' + data.status + ': ' + data.statusText);
                 }
@@ -53,7 +54,7 @@ const Character = () => {
         .then(res => {
             setCombos(res);
         });
-    }, [characterSlug]);
+    }, [characterSlug, type]);
 
     // Delete Combo
     const deleteCombo = async (comboId, i) => {
@@ -76,14 +77,28 @@ const Character = () => {
         }
     };
 
+    const changeType = event => {
+        if (type === 'midscreen' && event.target.name === 'corner-btn') {
+            setType('corner');
+        } else if (type === 'corner' && event.target.name === 'midscreen-btn') {
+            setType('midscreen');
+        }
+    };
+
     return (
         <main className="character">
-            {character?
+            {character ?
                 <h1>{character.name}</h1>
             : null}
-            <Link to={'/' + characterSlug + '/combos/create'} className="btn-container">
-                <button className="btn">Add Combo</button>
-            </Link>
+            <div className="add-combo-btn-wrapper">
+                <Link to={'/' + characterSlug + '/combos/create'} className="btn-container">
+                    <button className="btn add-combo-btn">Add Combo</button>
+                </Link>
+            </div>
+            <div className="combo-type-btns">
+                <button className={type === 'midscreen' ? 'btn active-type' : 'btn'} name="midscreen-btn" onClick={changeType}>Midscreen</button>
+                <button className={type === 'corner' ? 'btn active-type' : 'btn'} name="corner-btn" onClick={changeType}>Corner</button>
+            </div>
             <div className="combos">
                 {combos ?
                     combos.map((combo, i) => {
