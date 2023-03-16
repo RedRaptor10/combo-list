@@ -5,7 +5,7 @@ import Combo from './Combo';
 const ComboForm = () => {
     const { characterSlug, comboId } = useParams();
     const inputs = ['b', 'u', 'd', 'f', 'B', 'U', 'D', 'F', '1', '2', '3', '4', ',', '+', ' ', 'Backspace'];
-    const tagsList = ['1 Bar', '2 Bars', '3 Bars'];
+    const tagsList = ['Easy', 'Medium', 'Hard', '1 Bar', '2 Bars', '3 Bars'];
     const [form, setForm] = useState({
         damage: 0.00,
         input: '',
