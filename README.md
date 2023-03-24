@@ -32,7 +32,6 @@ Simply click on a character to view their combos. Combos can also be added, edit
 
 # To Do
 
-- Implement responsive design for mobile
 - Add prompt before deletion
 - Add tag filters
 - Add button images
